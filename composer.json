@@ -1,0 +1,34 @@
+{
+    "name": "qlimix/validation",
+    "type": "library",
+    "license": "LGPL-3.0-only",
+    "authors": [
+        {
+            "name": "Frank",
+            "email": "frank@qlimix.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Qlimix\\Validation\\": "src/"
+        }
+    },
+    "require-dev": {
+        "qlimix/code-standard": "dev-master"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@bitbucket.org:qlimix/code-standard.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@bitbucket.org:qlimix/codesniffer-standard.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
