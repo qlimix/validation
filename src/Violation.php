@@ -10,25 +10,38 @@ final class Violation
     /** @var string[] */
     private $messages;
 
+    /** @var ViolationGroup[] */
+    private $violationGroups;
+
     /**
-     * @param string[] $messages
+     * @param string[]         $messages
+     * @param ViolationGroup[] $violationGroups
      */
-    public function __construct(string $property, array $messages)
+    public function __construct(string $property, array $messages, array $violationGroups)
     {
         $this->property = $property;
         $this->messages = $messages;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getMessage(): array
-    {
-        return $this->messages;
+        $this->violationGroups = $violationGroups;
     }
 
     public function getProperty(): string
     {
         return $this->property;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @return ViolationGroup[]
+     */
+    public function getViolationGroups(): array
+    {
+        return $this->violationGroups;
     }
 }

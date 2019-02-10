@@ -4,7 +4,7 @@ namespace Qlimix\Validation\Validator\Exception;
 
 use Exception;
 
-final class ValidatorException extends Exception
+final class ViolationMessageException extends Exception
 {
     /** @var string */
     private $violationMessage;

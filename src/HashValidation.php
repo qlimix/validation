@@ -4,7 +4,8 @@ namespace Qlimix\Validation;
 
 use Qlimix\Validation\Hash\HashKey;
 use Qlimix\Validation\Hash\HashKeySet;
-use Qlimix\Validation\Validator\Exception\ValidatorException;
+use Qlimix\Validation\Validator\Exception\ViolationGroupException;
+use Qlimix\Validation\Validator\Exception\ViolationMessageException;
 use function array_key_exists;
 use function count;
 
@@ -40,7 +41,7 @@ final class HashValidation implements ValidationInterface
                     $violationGroups[] = ViolationGroup::createFromViolationSet($keySet->getKey(), $violationSet);
                 }
             } elseif ($keySet->isRequired()) {
-                $violations[] = new Violation($keySet->getKey(), ['hash.key.required']);
+                $violations[] = new Violation($keySet->getKey(), ['hash.key.required'], []);
             }
         }
 
@@ -59,18 +60,21 @@ final class HashValidation implements ValidationInterface
         foreach ($keys as $key) {
             if (array_key_exists($key->getKey(), $value)) {
                 $messages = [];
+                $groups = [];
                 foreach ($key->getValidators() as $validator) {
                     try {
                         $validator->validate($value[$key->getKey()]);
-                    } catch (ValidatorException $exception) {
+                    } catch (ViolationMessageException $exception) {
                         $messages[] = $exception->getViolationMessage();
+                    } catch (ViolationGroupException $exception) {
+                        $groups[] = $exception->getViolationGroup();
                     }
                 }
                 if (count($messages) > 0) {
-                    $violations[] = new Violation($key->getKey(), $messages);
+                    $violations[] = new Violation($key->getKey(), $messages, $groups);
                 }
             } elseif ($key->isRequired()) {
-                $violations[] = new Violation($key->getKey(), ['hash.key.required']);
+                $violations[] = new Violation($key->getKey(), ['hash.key.required'], []);
             }
         }
 
@@ -104,7 +108,7 @@ final class HashValidation implements ValidationInterface
                     $violationGroups[] = new ViolationGroup($keySet->getKey(), $keyViolations, $keySetViolations);
                 }
             } elseif ($keySet->isRequired()) {
-                $violations[] = new Violation($keySet->getKey(), ['hash.key.required']);
+                $violations[] = new Violation($keySet->getKey(), ['hash.key.required'], []);
             }
         }
 
