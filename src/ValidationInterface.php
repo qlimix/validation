@@ -7,11 +7,9 @@ use Qlimix\Validation\Exception\ValidationException;
 interface ValidationInterface
 {
     /**
-     * @param mixed $value
-     *
-     * @return ViolationInterface[]
+     * @param mixed[] $value
      *
      * @throws ValidationException
      */
-    public function validate($value): array;
+    public function validate(array $value): ViolationSet;
 }

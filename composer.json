@@ -13,6 +13,9 @@
             "Qlimix\\Validation\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": { "Qlimix\\Tests\\Validation\\": "tests/" }
+    },
     "require-dev": {
         "qlimix/code-standard": "dev-master"
     },

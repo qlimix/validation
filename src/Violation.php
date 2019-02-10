@@ -2,7 +2,7 @@
 
 namespace Qlimix\Validation;
 
-final class Violation implements ViolationInterface
+final class Violation
 {
     /** @var string */
     private $property;
@@ -20,7 +20,7 @@ final class Violation implements ViolationInterface
     }
 
     /**
-     * @inheritDoc
+     * @return string[]
      */
     public function getMessage(): array
     {

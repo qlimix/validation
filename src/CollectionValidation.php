@@ -2,42 +2,38 @@
 
 namespace Qlimix\Validation;
 
-use Qlimix\Validation\Exception\ValidationException;
-use Qlimix\Validation\Validator\Exception\ValidatorException;
-use Qlimix\Validation\Validator\HashValidator;
-use Throwable;
 use function is_array;
 
 final class CollectionValidation implements ValidationInterface
 {
-    /** @var HashValidator */
-    private $hashValidator;
+    /** @var HashValidation */
+    private $hashValidation;
 
-    public function __construct(HashValidator $hashValidator)
+    public function __construct(HashValidation $hashValidation)
     {
-        $this->hashValidator = $hashValidator;
+        $this->hashValidation = $hashValidation;
     }
 
     /**
      * @inheritDoc
      */
-    public function validate($value): array
+    public function validate(array $value): ViolationSet
     {
-        if (!is_array($value)) {
-            return [new Violation('hash', ['hash.invalid'])];
-        }
-
         $violations = [];
-        foreach ($value as $item) {
-            try {
-                $this->hashValidator->validate($item);
-            } catch (ValidatorException $exception) {
-                $violations[] = $exception->getViolations();
-            } catch (Throwable $exception) {
-                throw new ValidationException('Could not validate', 0, $exception);
+        $violationGroups = [];
+        foreach ($value as $index => $item) {
+            if (!is_array($item)) {
+                $violations[] = new Violation($index, ['collection.item.invalid']);
             }
+
+            $violationSet = $this->hashValidation->validate($item);
+            if ($violationSet->isEmpty()) {
+                continue;
+            }
+
+            $violationGroups[] = ViolationGroup::createFromViolationSet((string) $index, $violationSet);
         }
 
-        return $violations;
+        return new ViolationSet($violations, $violationGroups);
     }
 }

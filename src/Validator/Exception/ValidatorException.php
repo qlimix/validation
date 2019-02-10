@@ -3,27 +3,20 @@
 namespace Qlimix\Validation\Validator\Exception;
 
 use Exception;
-use Qlimix\Validation\ViolationInterface;
 
 final class ValidatorException extends Exception
 {
-    /** @var ViolationInterface[] */
-    private $violations;
+    /** @var string */
+    private $violationMessage;
 
-    /**
-     * @param ViolationInterface[] $violations
-     */
-    public function __construct(array $violations, string $message = '')
+    public function __construct(string $violationMessage)
     {
-        parent::__construct($message);
-        $this->violations = $violations;
+        parent::__construct();
+        $this->violationMessage = $violationMessage;
     }
 
-    /**
-     * @return ViolationInterface[]
-     */
-    public function getViolations(): array
+    public function getViolationMessage(): string
     {
-        return $this->violations;
+        return $this->violationMessage;
     }
 }
