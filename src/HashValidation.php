@@ -70,7 +70,7 @@ final class HashValidation implements ValidationInterface
                         $groups[] = $exception->getViolationGroup();
                     }
                 }
-                if (count($messages) > 0) {
+                if (count($messages) > 0 || count($groups) > 0) {
                     $violations[] = new Violation($key->getKey(), $messages, $groups);
                 }
             } elseif ($key->isRequired()) {
