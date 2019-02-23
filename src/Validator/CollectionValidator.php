@@ -3,9 +3,8 @@
 namespace Qlimix\Validation\Validator;
 
 use Qlimix\Validation\CollectionValidation;
-use Qlimix\Validation\Validator\Exception\ViolationGroupException;
 use Qlimix\Validation\Validator\Exception\ViolationMessageException;
-use Qlimix\Validation\ViolationGroup;
+use Qlimix\Validation\Validator\Exception\ViolationSetException;
 use function is_array;
 
 final class CollectionValidator implements ValidatorInterface
@@ -30,11 +29,7 @@ final class CollectionValidator implements ValidatorInterface
         $violationSet = $this->collectionValidation->validate($value);
 
         if (!$violationSet->isEmpty()) {
-            throw new ViolationGroupException(new ViolationGroup(
-                'collection',
-                $violationSet->getViolations(),
-                $violationSet->getViolationGroups()
-            ));
+            throw new ViolationSetException($violationSet);
         }
     }
 }

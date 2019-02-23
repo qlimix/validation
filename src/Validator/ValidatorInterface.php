@@ -4,6 +4,7 @@ namespace Qlimix\Validation\Validator;
 
 use Qlimix\Validation\Validator\Exception\ViolationGroupException;
 use Qlimix\Validation\Validator\Exception\ViolationMessageException;
+use Qlimix\Validation\Validator\Exception\ViolationSetException;
 
 interface ValidatorInterface
 {
@@ -12,6 +13,7 @@ interface ValidatorInterface
      *
      * @throws ViolationMessageException
      * @throws ViolationGroupException
+     * @throws ViolationSetException
      */
     public function validate($value): void;
 }
