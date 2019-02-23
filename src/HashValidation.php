@@ -4,7 +4,6 @@ namespace Qlimix\Validation;
 
 use Qlimix\Validation\Hash\HashKey;
 use Qlimix\Validation\Hash\HashKeySet;
-use Qlimix\Validation\Validator\Exception\ViolationGroupException;
 use Qlimix\Validation\Validator\Exception\ViolationMessageException;
 use Qlimix\Validation\Validator\Exception\ViolationSetException;
 use function array_key_exists;
@@ -67,8 +66,6 @@ final class HashValidation implements ValidationInterface
                         $validator->validate($value[$key->getKey()]);
                     } catch (ViolationMessageException $exception) {
                         $messages[] = $exception->getViolationMessage();
-                    } catch (ViolationGroupException $exception) {
-                        $groups[] = $exception->getViolationGroup();
                     } catch (ViolationSetException $exception) {
                         $groups[] = new ViolationGroup(
                             $key->getKey(),
