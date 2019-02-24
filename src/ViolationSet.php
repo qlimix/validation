@@ -42,4 +42,38 @@ final class ViolationSet
     {
         return $this->violationGroups;
     }
+
+    /**
+     * @return mixed[]
+     */
+    public function toArray(): array
+    {
+        $result = [];
+        foreach ($this->violations as $violation) {
+            $result[$violation->getProperty()] = $violation->getMessages();
+        }
+
+        foreach ($this->getViolationGroups() as $violationGroup) {
+            $result[$violationGroup->getProperty()] = $this->violationGroupToArray($violationGroup);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function violationGroupToArray(ViolationGroup $violationGroup): array
+    {
+        $result = [];
+        foreach ($violationGroup->getViolations() as $violation) {
+            $result[$violation->getProperty()] = $violation->getMessages();
+        }
+
+        foreach ($violationGroup->getViolationGroups() as $subViolationGroup) {
+            $result[$subViolationGroup->getProperty()] = $this->violationGroupToArray($subViolationGroup);
+        }
+
+        return $result;
+    }
 }
