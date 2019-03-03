@@ -14,7 +14,7 @@ final class ViolationGroup
     private $violationGroups;
 
     /**
-     * @param Violation[]      $violations
+     * @param Violation[] $violations
      * @param ViolationGroup[] $violationGroups
      */
     public function __construct(string $property, array $violations, array $violationGroups)

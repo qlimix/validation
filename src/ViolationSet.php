@@ -13,7 +13,7 @@ final class ViolationSet
     private $violationGroups;
 
     /**
-     * @param Violation[]      $violations
+     * @param Violation[] $violations
      * @param ViolationGroup[] $violationGroups
      */
     public function __construct(array $violations, array $violationGroups)

@@ -17,7 +17,7 @@ final class HashKeySet
     private $hashKeySets;
 
     /**
-     * @param HashKey[]    $hashKeys
+     * @param HashKey[] $hashKeys
      * @param HashKeySet[] $hashKeySets
      */
     public function __construct(string $key, bool $required, array $hashKeys, array $hashKeySets)
