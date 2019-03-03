@@ -18,7 +18,7 @@ final class HashValidation implements ValidationInterface
     private $keySets;
 
     /**
-     * @param HashKey[]    $keys
+     * @param HashKey[] $keys
      * @param HashKeySet[] $keySets
      */
     public function __construct(array $keys, array $keySets)
@@ -50,7 +50,7 @@ final class HashValidation implements ValidationInterface
 
     /**
      * @param HashKey[] $keys
-     * @param mixed[]   $value
+     * @param mixed[] $value
      *
      * @return Violation[]
      */
@@ -87,7 +87,7 @@ final class HashValidation implements ValidationInterface
 
     /**
      * @param HashKeySet[] $keySets
-     * @param mixed[]      $value
+     * @param mixed[] $value
      */
     private function validateKeySets(array $keySets, array $value): ViolationSet
     {
