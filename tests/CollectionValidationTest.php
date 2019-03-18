@@ -45,6 +45,23 @@ final class CollectionValidationTest extends TestCase
         $result = $validation->validate([[]]);
         $this->assertFalse($result->isEmpty());
     }
+    /**
+     * @test
+     */
+    public function shouldBeInvalidOnNoneArrayItem(): void
+    {
+        $hashValidation = new HashValidation(
+            [
+                new HashKey('foo', true, []),
+            ],
+            []
+        );
+
+        $validation = new CollectionValidation($hashValidation);
+
+        $result = $validation->validate([['foo' => 'bar'], 1]);
+        $this->assertFalse($result->isEmpty());
+    }
 
     /**
      * @test

@@ -24,6 +24,7 @@ final class CollectionValidation implements ValidationInterface
         foreach ($value as $index => $item) {
             if (!is_array($item)) {
                 $violations[] = new Violation((string) $index, ['collection.item.invalid'], []);
+                continue;
             }
 
             $violationSet = $this->hashValidation->validate($item);
