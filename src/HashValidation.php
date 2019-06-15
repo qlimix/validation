@@ -2,8 +2,8 @@
 
 namespace Qlimix\Validation;
 
-use Qlimix\Validation\Hash\HashKey;
-use Qlimix\Validation\Hash\HashKeySet;
+use Qlimix\Validation\Hash\Key;
+use Qlimix\Validation\Hash\KeySet;
 use Qlimix\Validation\Validator\Exception\ViolationMessageException;
 use Qlimix\Validation\Validator\Exception\ViolationSetException;
 use function array_key_exists;
@@ -11,15 +11,15 @@ use function count;
 
 final class HashValidation implements ValidationInterface
 {
-    /** @var HashKey[] */
+    /** @var Key[] */
     private $keys;
 
-    /** @var HashKeySet[] */
+    /** @var KeySet[] */
     private $keySets;
 
     /**
-     * @param HashKey[] $keys
-     * @param HashKeySet[] $keySets
+     * @param Key[] $keys
+     * @param KeySet[] $keySets
      */
     public function __construct(array $keys, array $keySets)
     {
@@ -49,7 +49,7 @@ final class HashValidation implements ValidationInterface
     }
 
     /**
-     * @param HashKey[] $keys
+     * @param Key[] $keys
      * @param mixed[] $value
      *
      * @return Violation[]
@@ -86,7 +86,7 @@ final class HashValidation implements ValidationInterface
     }
 
     /**
-     * @param HashKeySet[] $keySets
+     * @param KeySet[] $keySets
      * @param mixed[] $value
      */
     private function validateKeySets(array $keySets, array $value): ViolationSet

@@ -3,8 +3,8 @@
 namespace Qlimix\Tests\Validation;
 
 use PHPUnit\Framework\TestCase;
-use Qlimix\Validation\Hash\HashKey;
-use Qlimix\Validation\Hash\HashKeySet;
+use Qlimix\Validation\Hash\Key;
+use Qlimix\Validation\Hash\KeySet;
 use Qlimix\Validation\CollectionValidation;
 use Qlimix\Validation\HashValidation;
 
@@ -17,7 +17,7 @@ final class CollectionValidationTest extends TestCase
     {
         $hashValidation = new HashValidation(
             [
-                new HashKey('foo', true, []),
+                new Key('foo', true, []),
             ],
             []
         );
@@ -35,7 +35,7 @@ final class CollectionValidationTest extends TestCase
     {
         $hashValidation = new HashValidation(
             [
-                new HashKey('foo', true, []),
+                new Key('foo', true, []),
             ],
             []
         );
@@ -45,6 +45,7 @@ final class CollectionValidationTest extends TestCase
         $result = $validation->validate([[]]);
         $this->assertFalse($result->isEmpty());
     }
+
     /**
      * @test
      */
@@ -52,7 +53,7 @@ final class CollectionValidationTest extends TestCase
     {
         $hashValidation = new HashValidation(
             [
-                new HashKey('foo', true, []),
+                new Key('foo', true, []),
             ],
             []
         );
@@ -70,10 +71,10 @@ final class CollectionValidationTest extends TestCase
     {
         $hashValidation = new HashValidation(
             [
-                new HashKey('test1', true, []),
+                new Key('test1', true, []),
             ],
             [
-                new HashKeySet('test2', true, [new HashKey('test3', true, [])], [])
+                new KeySet('test2', true, [new Key('test3', true, [])], [])
             ]
         );
 
@@ -90,10 +91,10 @@ final class CollectionValidationTest extends TestCase
     {
         $hashValidation = new HashValidation(
             [
-                new HashKey('test1', true, []),
+                new Key('test1', true, []),
             ],
             [
-                new HashKeySet('test2', true, [], [new HashKeySet('test3', true, [], [])])
+                new KeySet('test2', true, [], [new KeySet('test3', true, [], [])])
             ]
         );
 
@@ -110,17 +111,17 @@ final class CollectionValidationTest extends TestCase
     {
         $hashValidation = new HashValidation(
             [
-                new HashKey('test1', true, []),
+                new Key('test1', true, []),
             ],
             [
-                new HashKeySet('test2', true,
+                new KeySet('test2', true,
                     [
-                        new HashKey('test3', true, [])
+                        new Key('test3', true, [])
                     ],
                     [
-                        new HashKeySet('test4', true,
+                        new KeySet('test4', true,
                             [
-                                new HashKey('test5', true, [])
+                                new Key('test5', true, [])
                             ],
                             []
                         )
@@ -144,15 +145,15 @@ final class CollectionValidationTest extends TestCase
     {
         $hashValidation = new HashValidation(
             [
-                new HashKey('test1', true, []),
+                new Key('test1', true, []),
             ],
             [
-                new HashKeySet('test2', true,
+                new KeySet('test2', true,
                     [
-                        new HashKey('test3', true, [])
+                        new Key('test3', true, [])
                     ],
                     [
-                        new HashKeySet('test4', true, [], [])
+                        new KeySet('test4', true, [], [])
                     ]
                 )
             ]

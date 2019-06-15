@@ -4,7 +4,7 @@ namespace Qlimix\Validation\Hash;
 
 use Qlimix\Validation\Validator\ValidatorInterface;
 
-final class HashKey
+final class Key
 {
     /** @var string */
     private $key;

@@ -2,7 +2,7 @@
 
 namespace Qlimix\Validation\Hash;
 
-final class HashKeySet
+final class KeySet
 {
     /** @var string */
     private $key;
@@ -10,15 +10,15 @@ final class HashKeySet
     /** @var bool */
     private $required;
 
-    /** @var HashKey[] */
+    /** @var Key[] */
     private $hashKeys;
 
-    /** @var HashKeySet[] */
+    /** @var KeySet[] */
     private $hashKeySets;
 
     /**
-     * @param HashKey[] $hashKeys
-     * @param HashKeySet[] $hashKeySets
+     * @param Key[] $hashKeys
+     * @param KeySet[] $hashKeySets
      */
     public function __construct(string $key, bool $required, array $hashKeys, array $hashKeySets)
     {
@@ -39,7 +39,7 @@ final class HashKeySet
     }
 
     /**
-     * @return HashKey[]
+     * @return Key[]
      */
     public function getHashKeys(): array
     {
@@ -47,7 +47,7 @@ final class HashKeySet
     }
 
     /**
-     * @return HashKeySet[]
+     * @return KeySet[]
      */
     public function getHashKeySets(): array
     {

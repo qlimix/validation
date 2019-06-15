@@ -4,7 +4,7 @@ namespace Qlimix\Tests\Validation\Validator;
 
 use PHPUnit\Framework\TestCase;
 use Qlimix\Validation\CollectionValidation;
-use Qlimix\Validation\Hash\HashKey;
+use Qlimix\Validation\Hash\Key;
 use Qlimix\Validation\HashValidation;
 use Qlimix\Validation\Validator\CollectionValidator;
 
@@ -17,15 +17,15 @@ final class CollectionValidatorTest extends TestCase
     {
         $collectionValidation = new CollectionValidation(new HashValidation(
             [
-                new HashKey('test3', true, [])
+                new Key('test3', true, [])
             ],
             []
         ));
 
         $validation = new HashValidation(
             [
-                new HashKey('test1', true, []),
-                new HashKey('test2', true, [
+                new Key('test1', true, []),
+                new Key('test2', true, [
                     new CollectionValidator($collectionValidation)
                 ]),
             ],
@@ -42,15 +42,15 @@ final class CollectionValidatorTest extends TestCase
     {
         $collectionValidation = new CollectionValidation(new HashValidation(
             [
-                new HashKey('test3', true, [])
+                new Key('test3', true, [])
             ],
             []
         ));
 
         $validation = new HashValidation(
             [
-                new HashKey('test1', true, []),
-                new HashKey('test2', true, [
+                new Key('test1', true, []),
+                new Key('test2', true, [
                     new CollectionValidator($collectionValidation)
                 ]),
             ],
