@@ -36,7 +36,7 @@ final class HashValidation implements ValidationInterface
         $violations = $this->validateKeys($this->keys, $value);
         foreach ($this->keySets as $keySet) {
             if (array_key_exists($keySet->getKey(), $value)) {
-                $violationSet = $this->validateKeySets($keySet->getHashKeySets(), $value[$keySet->getKey()]);
+                $violationSet = $this->validateKeySets($keySet->getKeySets(), $value[$keySet->getKey()]);
                 if (!$violationSet->isEmpty()) {
                     $violationGroups[] = ViolationGroup::createFromViolationSet($keySet->getKey(), $violationSet);
                 }
@@ -95,21 +95,10 @@ final class HashValidation implements ValidationInterface
         $violationGroups = [];
         foreach ($keySets as $keySet) {
             if (array_key_exists($keySet->getKey(), $value)) {
-                $keyViolations = $this->validateKeys($keySet->getHashKeys(), $value[$keySet->getKey()]);
-                $keySetViolations = [];
-                foreach ($keySet->getHashKeySets() as $hashKeySet) {
-                    $keySetViolationSet = $this->validateKeySets($hashKeySet->getHashKeySets(), $value[$keySet->getKey()]);
-                    if ($keySetViolationSet->isEmpty()) {
-                        continue;
-                    }
+                $keyViolations = $this->validateKeys($keySet->getKeys(), $value[$keySet->getKey()]);
 
-                    $keySetViolations[] = ViolationGroup::createFromViolationSet(
-                        $hashKeySet->getKey(),
-                        $keySetViolationSet
-                    );
-                }
-                if (count($keyViolations) > 0 || count($keySetViolations) > 0) {
-                    $violationGroups[] = new ViolationGroup($keySet->getKey(), $keyViolations, $keySetViolations);
+                if (count($keyViolations) > 0) {
+                    $violationGroups[] = new ViolationGroup($keySet->getKey(), $keyViolations, []);
                 }
             } elseif ($keySet->isRequired()) {
                 $violations[] = new Violation($keySet->getKey(), ['hash.key.required'], []);

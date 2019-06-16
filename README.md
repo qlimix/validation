@@ -19,10 +19,12 @@ $ composer require qlimix/validation
 
 ```php
 <?php
+
 use Qlimix\Validation\CollectionValidation;
 use Qlimix\Validation\HashValidation;
 use Qlimix\Validation\Hash\Key;
 use Qlimix\Validation\Validator\CollectionValidator;
+
 $collectionValidation = new CollectionValidation(new HashValidation(
     [
         new Key('test3', true, [])

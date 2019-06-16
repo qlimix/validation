@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Qlimix\Validation\Hash\Key;
 use Qlimix\Validation\Hash\KeySet;
 use Qlimix\Validation\HashValidation;
+use Qlimix\Validation\Validator\Exception\ViolationMessageException;
+use Qlimix\Validation\Validator\ValidatorInterface;
 
 final class HashValidationTest extends TestCase
 {
@@ -129,6 +131,93 @@ final class HashValidationTest extends TestCase
         );
 
         $result = $validation->validate(['test1' => 'bar', 'test2' => ['test3' => 'bar']]);
+        $this->assertFalse($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeInvalidWithMissingRequiredField(): void
+    {
+        $validation = new HashValidation(
+            [
+                new Key('test1', true, []),
+            ],
+            [
+                new KeySet('test2', true,
+                    [
+                        new Key('test3', true, [])
+                    ],
+                    []
+                )
+            ]
+        );
+
+        $result = $validation->validate(['test1' => 'bar']);
+        $this->assertFalse($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeInvalidWithThrowingValidator(): void
+    {
+        $validator = $this->createMock(ValidatorInterface::class);
+        $validator->expects($this->once())
+            ->method('validate')
+            ->willThrowException(new ViolationMessageException('invalid'));
+
+        $validation = new HashValidation(
+            [
+                new Key('test1', true, [$validator]),
+            ],
+            []
+        );
+
+        $result = $validation->validate(['test1' => 'bar']);
+        $this->assertFalse($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeValidWithSubValidationKeySet(): void
+    {
+        $validation = new HashValidation(
+            [
+                new Key('test1', true, []),
+            ],
+            [
+                new KeySet('test2', true,
+                    [
+                        new Key('test3', true, [])
+                    ],
+                    [
+                        new KeySet('test4', true,
+                            [
+                                new Key('test5', true, [])
+                            ],
+                            [
+                                new KeySet('test2', true,
+                                    [
+                                        new Key('test3', true, [])
+                                    ],
+                                    []
+                                )
+                            ]
+                        ),
+                        new KeySet('test6', true,
+                            [
+                                new Key('test7', true, [])
+                            ],
+                            []
+                        )
+                    ]
+                )
+            ]
+        );
+
+        $result = $validation->validate(['test1' => 'bar']);
         $this->assertFalse($result->isEmpty());
     }
 }

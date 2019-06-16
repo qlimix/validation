@@ -11,21 +11,21 @@ final class KeySet
     private $required;
 
     /** @var Key[] */
-    private $hashKeys;
+    private $keys;
 
     /** @var KeySet[] */
-    private $hashKeySets;
+    private $keySets;
 
     /**
-     * @param Key[] $hashKeys
-     * @param KeySet[] $hashKeySets
+     * @param Key[] $keys
+     * @param KeySet[] $keySets
      */
-    public function __construct(string $key, bool $required, array $hashKeys, array $hashKeySets)
+    public function __construct(string $key, bool $required, array $keys, array $keySets)
     {
         $this->key = $key;
         $this->required = $required;
-        $this->hashKeys = $hashKeys;
-        $this->hashKeySets = $hashKeySets;
+        $this->keys = $keys;
+        $this->keySets = $keySets;
     }
 
     public function getKey(): string
@@ -41,16 +41,16 @@ final class KeySet
     /**
      * @return Key[]
      */
-    public function getHashKeys(): array
+    public function getKeys(): array
     {
-        return $this->hashKeys;
+        return $this->keys;
     }
 
     /**
      * @return KeySet[]
      */
-    public function getHashKeySets(): array
+    public function getKeySets(): array
     {
-        return $this->hashKeySets;
+        return $this->keySets;
     }
 }
