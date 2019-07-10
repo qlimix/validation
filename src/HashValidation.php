@@ -11,6 +11,8 @@ use function count;
 
 final class HashValidation implements ValidationInterface
 {
+    private const HASH_KEY_REQUIRED = 'hash.key.required';
+
     /** @var Key[] */
     private $keys;
 
@@ -41,7 +43,7 @@ final class HashValidation implements ValidationInterface
                     $violationGroups[] = ViolationGroup::createFromViolationSet($keySet->getKey(), $violationSet);
                 }
             } elseif ($keySet->isRequired()) {
-                $violations[] = new Violation($keySet->getKey(), ['hash.key.required'], []);
+                $violations[] = new Violation($keySet->getKey(), [self::HASH_KEY_REQUIRED], []);
             }
         }
 
@@ -78,7 +80,7 @@ final class HashValidation implements ValidationInterface
                     $violations[] = new Violation($key->getKey(), $messages, $groups);
                 }
             } elseif ($key->isRequired()) {
-                $violations[] = new Violation($key->getKey(), ['hash.key.required'], []);
+                $violations[] = new Violation($key->getKey(), [self::HASH_KEY_REQUIRED], []);
             }
         }
 
@@ -101,7 +103,7 @@ final class HashValidation implements ValidationInterface
                     $violationGroups[] = new ViolationGroup($keySet->getKey(), $keyViolations, []);
                 }
             } elseif ($keySet->isRequired()) {
-                $violations[] = new Violation($keySet->getKey(), ['hash.key.required'], []);
+                $violations[] = new Violation($keySet->getKey(), [self::HASH_KEY_REQUIRED], []);
             }
         }
 

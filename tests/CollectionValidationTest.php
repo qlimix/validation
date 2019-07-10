@@ -43,7 +43,12 @@ final class CollectionValidationTest extends TestCase
         $validation = new CollectionValidation($hashValidation);
 
         $result = $validation->validate([[]]);
+
         $this->assertFalse($result->isEmpty());
+        $this->assertSame(
+            'hash.key.required',
+            $result->getViolationGroups()[0]->getViolations()[0]->getMessages()[0]
+        );
     }
 
     /**
@@ -61,7 +66,38 @@ final class CollectionValidationTest extends TestCase
         $validation = new CollectionValidation($hashValidation);
 
         $result = $validation->validate([['foo' => 'bar'], 1]);
+        $violation = $result->getViolations()[0];
+
         $this->assertFalse($result->isEmpty());
+        $this->assertSame('collection.item.invalid', $violation->getMessages()[0]);
+        $this->assertSame('1', $violation->getProperty());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeInvalidOnMultipleNoneArrayItems(): void
+    {
+        $hashValidation = new HashValidation(
+            [
+                new Key('foo', true, []),
+            ],
+            []
+        );
+
+        $validation = new CollectionValidation($hashValidation);
+
+        $result = $validation->validate([['foo' => 'bar'], 1, 'foo']);
+
+        $firstViolation = $result->getViolations()[0];
+        $secondViolation = $result->getViolations()[1];
+
+        $this->assertFalse($result->isEmpty());
+        $this->assertSame('collection.item.invalid', $firstViolation->getMessages()[0]);
+        $this->assertSame('1', $firstViolation->getProperty());
+
+        $this->assertSame('collection.item.invalid', $secondViolation->getMessages()[0]);
+        $this->assertSame('2', $secondViolation->getProperty());
     }
 
     /**
@@ -101,7 +137,14 @@ final class CollectionValidationTest extends TestCase
         $validation = new CollectionValidation($hashValidation);
 
         $result = $validation->validate([['test1' => 'bar', 'test2' => []]]);
+
+        $violation = $result->getViolationGroups()[0]
+            ->getViolationGroups()[0]
+            ->getViolations()[0];
+
         $this->assertFalse($result->isEmpty());
+        $this->assertSame('hash.key.required', $violation->getMessages()[0]);
+        $this->assertSame('test3', $violation->getProperty());
     }
 
     /**

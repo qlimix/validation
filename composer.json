@@ -29,6 +29,7 @@
         "sort-packages": true
     },
     "require-dev": {
+        "infection/infection": "^0.13.4",
         "qlimix/code-standard": "^1.0"
     }
 }

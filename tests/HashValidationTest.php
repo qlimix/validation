@@ -41,6 +41,10 @@ final class HashValidationTest extends TestCase
 
         $result = $validation->validate([]);
         $this->assertFalse($result->isEmpty());
+        $this->assertSame(
+            'hash.key.required',
+            $result->getViolations()[0]->getMessages()[0]
+        );
     }
 
     /**
@@ -155,6 +159,7 @@ final class HashValidationTest extends TestCase
 
         $result = $validation->validate(['test1' => 'bar']);
         $this->assertFalse($result->isEmpty());
+        $this->assertSame('hash.key.required', $result->getViolations()[0]->getMessages()[0]);
     }
 
     /**
@@ -218,6 +223,8 @@ final class HashValidationTest extends TestCase
         );
 
         $result = $validation->validate(['test1' => 'bar']);
+
         $this->assertFalse($result->isEmpty());
+        $this->assertSame('hash.key.required', $result->getViolations()[0]->getMessages()[0]);
     }
 }
