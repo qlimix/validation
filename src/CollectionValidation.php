@@ -6,6 +6,8 @@ use function is_array;
 
 final class CollectionValidation implements ValidationInterface
 {
+    private const COLLECTION_ITEM_INVALID = 'collection.item.invalid';
+
     /** @var HashValidation */
     private $hashValidation;
 
@@ -23,7 +25,7 @@ final class CollectionValidation implements ValidationInterface
         $violationGroups = [];
         foreach ($value as $index => $item) {
             if (!is_array($item)) {
-                $violations[] = new Violation((string) $index, ['collection.item.invalid'], []);
+                $violations[] = new Violation((string) $index, [self::COLLECTION_ITEM_INVALID], []);
                 continue;
             }
 

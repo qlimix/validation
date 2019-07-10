@@ -9,6 +9,8 @@ use function is_array;
 
 final class CollectionValidator implements ValidatorInterface
 {
+    private const COLLECTION_INVALID = 'collection.invalid';
+
     /** @var CollectionValidation */
     private $collectionValidation;
 
@@ -23,7 +25,7 @@ final class CollectionValidator implements ValidatorInterface
     public function validate($value): void
     {
         if (!is_array($value)) {
-            throw new ViolationMessageException('collection.invalid');
+            throw new ViolationMessageException(self::COLLECTION_INVALID);
         }
 
         $violationSet = $this->collectionValidation->validate($value);

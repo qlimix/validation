@@ -6,3 +6,6 @@ clover.xml
 coveralls.json
 .env
 !.gitkeep
+infection.log
+summary.log
+per-mutator.md

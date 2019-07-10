@@ -15,6 +15,7 @@ before_script:
 
 script:
   - vendor/bin/grumphp run
+  - vendor/bin/infection
   - vendor/bin/phpunit tests --coverage-clover clover.xml
 
 after_success:
@@ -23,3 +24,7 @@ after_success:
 notifications:
   email:
     on_success: never
+
+env:
+  global:
+    secure: S2vzRHhZNAcfneW56WO0e+7g/dMYO2ZYkiFkkZQdD4/oyicxFXlbCecEb1RFtgS3AJyJNFarrlGrSXjIONM18RF/hwyYIWHp4iu6A9C64bVCfuiUhI7iy9hP5rC8SITBn81UQNf4uJYZdCAk0zrzjh+SHl3H7bFtJyvHBi9o9Z16g3yqUNYiWOsDVn6CJgp6QuXUflKwQDumM/uJCjFBQPa5pcziQI+l28XVsGXTj+HU9kF2OtatfMcWHJroG9IOYqRx7LKXWCJYNcJ3rmliML1oA+GZcaWx+ef6JcQc3XMOofUsAiUsOlaMujFVrdmyzz1OoR12w1rfBgK1Wg1ZaPnB4CE9eoCRqQoK0I3cUh781lsBbcrBJATwcRTeaKGc1bzycnQWqhN+77FZvU3klW0xS1oUkZ0FHcwZfeX3lygK+YVclW2Q8kaKB8Njqis31WukrjWQHOmL9aC6xJe0ASK1DXIsMd18RDhG4e1W/AgK7g0QUONc2ZgQBeI4M90v6XO8w6qcuJ8T62YY+QBG7AiOZAymZtkTXd+uswJpwNUMrUeERhLPdI+Dc57FU54yYyIBbCQQ++LVwatpUxiBDvEgFkRwq4ZC7Ld54cjs0TIXm/ri3VESyiHta7SLHBO6fQVNHSBgGX40QLexiXimn7/Cg7WeSGddq2a5U0h8oak=
