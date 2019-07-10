@@ -15,6 +15,7 @@ before_script:
 
 script:
   - vendor/bin/grumphp run
+  - vendor/bin/infection
   - vendor/bin/phpunit tests --coverage-clover clover.xml
 
 after_success:
