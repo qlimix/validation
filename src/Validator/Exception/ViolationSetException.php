@@ -7,8 +7,7 @@ use Qlimix\Validation\ViolationSet;
 
 final class ViolationSetException extends Exception
 {
-    /** @var ViolationSet */
-    private $violationSet;
+    private ViolationSet $violationSet;
 
     public function __construct(ViolationSet $violationSet)
     {

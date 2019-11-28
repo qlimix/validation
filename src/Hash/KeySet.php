@@ -4,17 +4,15 @@ namespace Qlimix\Validation\Hash;
 
 final class KeySet
 {
-    /** @var string */
-    private $key;
+    private string $key;
 
-    /** @var bool */
-    private $required;
+    private bool $required;
 
     /** @var Key[] */
-    private $keys;
+    private array $keys;
 
     /** @var KeySet[] */
-    private $keySets;
+    private array $keySets;
 
     /**
      * @param Key[] $keys

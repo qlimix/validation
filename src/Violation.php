@@ -4,14 +4,13 @@ namespace Qlimix\Validation;
 
 final class Violation
 {
-    /** @var string */
-    private $property;
+    private string $property;
 
     /** @var string[] */
-    private $messages;
+    private array $messages;
 
     /** @var ViolationGroup[] */
-    private $violationGroups;
+    private array $violationGroups;
 
     /**
      * @param string[] $messages

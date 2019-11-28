@@ -8,8 +8,7 @@ final class CollectionValidation implements ValidationInterface
 {
     private const COLLECTION_ITEM_INVALID = 'collection.item.invalid';
 
-    /** @var HashValidation */
-    private $hashValidation;
+    private HashValidation $hashValidation;
 
     public function __construct(HashValidation $hashValidation)
     {

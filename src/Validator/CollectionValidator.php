@@ -11,8 +11,7 @@ final class CollectionValidator implements ValidatorInterface
 {
     private const COLLECTION_INVALID = 'collection.invalid';
 
-    /** @var CollectionValidation */
-    private $collectionValidation;
+    private CollectionValidation $collectionValidation;
 
     public function __construct(CollectionValidation $collectionValidation)
     {
