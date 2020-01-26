@@ -6,8 +6,7 @@ use Exception;
 
 final class ViolationMessageException extends Exception
 {
-    /** @var string */
-    private $violationMessage;
+    private string $violationMessage;
 
     public function __construct(string $violationMessage)
     {

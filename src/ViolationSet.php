@@ -7,10 +7,10 @@ use function count;
 final class ViolationSet
 {
     /** @var Violation[] */
-    private $violations;
+    private array $violations;
 
     /** @var ViolationGroup[] */
-    private $violationGroups;
+    private array $violationGroups;
 
     /**
      * @param Violation[] $violations

@@ -14,10 +14,10 @@ final class HashValidation implements ValidationInterface
     private const HASH_KEY_REQUIRED = 'hash.key.required';
 
     /** @var Key[] */
-    private $keys;
+    private array $keys;
 
     /** @var KeySet[] */
-    private $keySets;
+    private array $keySets;
 
     /**
      * @param Key[] $keys
@@ -76,6 +76,7 @@ final class HashValidation implements ValidationInterface
                         );
                     }
                 }
+
                 if (count($messages) > 0 || count($groups) > 0) {
                     $violations[] = new Violation($key->getKey(), $messages, $groups);
                 }

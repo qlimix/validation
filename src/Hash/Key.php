@@ -6,14 +6,12 @@ use Qlimix\Validation\Validator\ValidatorInterface;
 
 final class Key
 {
-    /** @var string */
-    private $key;
+    private string $key;
 
-    /** @var bool */
-    private $required;
+    private bool $required;
 
     /** @var ValidatorInterface[] */
-    private $validators;
+    private array $validators;
 
     /**
      * @param ValidatorInterface[] $validators
