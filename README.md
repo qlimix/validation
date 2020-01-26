@@ -18,30 +18,73 @@ $ composer require qlimix/validation
 
 ## usage
 
+### Example 1 Collection
+```json
+[
+    {
+        "foo": "bar",
+        "foobar": {
+            "bar": 1,
+            "foo": "example"
+        }
+    },
+    {
+        "foo": "foo",
+        "foobar": {
+            "bar": 2,
+            "foo": "example1"
+        }
+    }
+]
+```
+
 ```php
 <?php
 
 use Qlimix\Validation\CollectionValidation;
-use Qlimix\Validation\HashValidation;
-use Qlimix\Validation\Hash\Key;
-use Qlimix\Validation\Validator\CollectionValidator;
+use Qlimix\Validation\Inspector\HashInspector;
+use Qlimix\Validation\Inspector\KeyInspector;
+use Qlimix\Validation\Key;
 
-$collectionValidation = new CollectionValidation(new HashValidation(
-    [
-        new Key('test3', true, [])
-    ],
-    []
-));
+$example1 = new CollectionValidation([
+    new HashInspector([new Key('foo', true, [])]), // add validators
+    new KeyInspector('foobar', true, [
+        new HashInspector([
+            new Key('bar', true, []), // add validators
+            new Key('foo', true, []), // add validators
+        ])
+    ])
+]);
+```
 
-$validation = new HashValidation(
-    [
-        new Key('test1', true, []),
-        new Key('test2', true, [
-            new CollectionValidator($collectionValidation)
-        ]),
-    ],
-    []
-);
+### Example 2 key values
+```json
+{
+    "foo": "foobar",
+    "foobar": {
+        "bar": 42,
+        "foo": "example2"
+    }
+}
+```
+
+```php
+<?php
+
+use Qlimix\Validation\Inspector\HashInspector;
+use Qlimix\Validation\Inspector\KeyInspector;
+use Qlimix\Validation\InspectorValidation;
+use Qlimix\Validation\Key;
+
+$example2 = new InspectorValidation([
+    new HashInspector([new Key('foo', true, [])]), // add validators
+    new KeyInspector('foobar', true, [
+        new HashInspector([
+            new Key('bar', true, []), // add validators
+            new Key('bar', true, []), // add validators
+        ])
+    ])
+]);
 ```
 
 ## Testing

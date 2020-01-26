@@ -7,10 +7,7 @@ use Qlimix\Validation\Validator\Exception\ViolationMessageException;
 
 final class ViolationMessageExceptionTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldCreateValidException(): void
+    public function testShouldCreateValidException(): void
     {
         $message = 'foobar';
         $exception = new ViolationMessageException($message);

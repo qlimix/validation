@@ -2,17 +2,22 @@
 
 namespace Qlimix\Validation;
 
+use Qlimix\Validation\Inspector\InspectorInterface;
 use function is_array;
 
 final class CollectionValidation implements ValidationInterface
 {
     private const COLLECTION_ITEM_INVALID = 'collection.item.invalid';
 
-    private HashValidation $hashValidation;
+    /** @var InspectorInterface[]  */
+    private array $inspectors;
 
-    public function __construct(HashValidation $hashValidation)
+    /**
+     * @param InspectorInterface[] $inspectors
+     */
+    public function __construct(array $inspectors)
     {
-        $this->hashValidation = $hashValidation;
+        $this->inspectors = $inspectors;
     }
 
     /**
@@ -20,20 +25,25 @@ final class CollectionValidation implements ValidationInterface
      */
     public function validate(array $value): ViolationSet
     {
-        $violations = [];
         $violationGroups = [];
+        $violations = [];
         foreach ($value as $index => $item) {
             if (!is_array($item)) {
-                $violations[] = new Violation((string) $index, [self::COLLECTION_ITEM_INVALID], []);
+                $violations[] = new Violation((string) $index, [self::COLLECTION_ITEM_INVALID]);
                 continue;
             }
 
-            $violationSet = $this->hashValidation->validate($item);
-            if ($violationSet->isEmpty()) {
-                continue;
-            }
+            foreach ($this->inspectors as $inspector) {
+                $violationSet = $inspector->inspect($item);
+                if ($violationSet->isEmpty()) {
+                    continue;
+                }
 
-            $violationGroups[] = ViolationGroup::createFromViolationSet((string) $index, $violationSet);
+                $violationGroups[] = ViolationGroup::createFromViolationSet(
+                    (string) $index,
+                    $violationSet
+                );
+            }
         }
 
         return new ViolationSet($violations, $violationGroups);

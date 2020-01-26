@@ -3,44 +3,32 @@
 namespace Qlimix\Tests\Validation;
 
 use PHPUnit\Framework\TestCase;
-use Qlimix\Validation\Hash\Key;
-use Qlimix\Validation\Hash\KeySet;
 use Qlimix\Validation\CollectionValidation;
-use Qlimix\Validation\HashValidation;
+use Qlimix\Validation\Key;
+use Qlimix\Validation\Inspector\HashInspector;
+use Qlimix\Validation\Inspector\KeyInspector;
 
 final class CollectionValidationTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldBeValid(): void
+    public function testShouldBeValid(): void
     {
-        $hashValidation = new HashValidation(
-            [
-                new Key('foo', true, []),
-            ],
-            []
-        );
+        $hashInspector = new HashInspector([
+            new Key('foo', true, []),
+        ]);
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector]);
 
         $result = $validation->validate([['foo' => 'bar']]);
         $this->assertTrue($result->isEmpty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldBeInvalid(): void
+    public function testShouldBeInvalid(): void
     {
-        $hashValidation = new HashValidation(
-            [
-                new Key('foo', true, []),
-            ],
-            []
-        );
+        $hashInspector = new HashInspector([
+            new Key('foo', true, []),
+        ]);
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector]);
 
         $result = $validation->validate([[]]);
 
@@ -51,19 +39,13 @@ final class CollectionValidationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function shouldBeInvalidOnNoneArrayItem(): void
+    public function testShouldBeInvalidOnNoneArrayItem(): void
     {
-        $hashValidation = new HashValidation(
-            [
-                new Key('foo', true, []),
-            ],
-            []
-        );
+        $hashInspector = new HashInspector([
+            new Key('foo', true, []),
+        ]);
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector]);
 
         $result = $validation->validate([['foo' => 'bar'], 1]);
         $violation = $result->getViolations()[0];
@@ -73,19 +55,13 @@ final class CollectionValidationTest extends TestCase
         $this->assertSame('1', $violation->getProperty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldBeInvalidOnMultipleNoneArrayItems(): void
+    public function testSBeInvalidOnMultipleNoneArrayItems(): void
     {
-        $hashValidation = new HashValidation(
-            [
-                new Key('foo', true, []),
-            ],
-            []
-        );
+        $hashInspector = new HashInspector([
+            new Key('foo', true, []),
+        ]);
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector]);
 
         $result = $validation->validate([['foo' => 'bar'], 1, 'foo']);
 
@@ -100,41 +76,37 @@ final class CollectionValidationTest extends TestCase
         $this->assertSame('2', $secondViolation->getProperty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldBeValidRecursive(): void
+    public function testShouldBeValidRecursive(): void
     {
-        $hashValidation = new HashValidation(
-            [
-                new Key('test1', true, []),
-            ],
-            [
-                new KeySet('test2', true, [new Key('test3', true, [])], [])
-            ]
+        $hashInspector = new HashInspector([
+            new Key('test1', true, []),
+        ]);
+
+        $keyInspector = new KeyInspector(
+            'test2',
+            true,
+            [new HashInspector([new Key('test3', true, [])])]
         );
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector, $keyInspector]);
 
         $result = $validation->validate([['test1' => 'bar', 'test2' => ['test3' => 'bar']]]);
         $this->assertTrue($result->isEmpty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldBeInvalidRecursive(): void
+    public function testShouldBeInvalidRecursive(): void
     {
-        $hashValidation = new HashValidation(
-            [
-                new Key('test1', true, []),
-            ],
-            [
-                new KeySet('test2', true, [], [new KeySet('test3', true, [], [])])
-            ]
+        $hashInspector = new HashInspector([
+            new Key('test1', true, []),
+        ]);
+
+        $keyInspector = new KeyInspector(
+            'test2',
+            true,
+            [new HashInspector([new Key('test3', true, [])])]
         );
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector, $keyInspector]);
 
         $result = $validation->validate([['test1' => 'bar', 'test2' => []]]);
 
@@ -147,33 +119,26 @@ final class CollectionValidationTest extends TestCase
         $this->assertSame('test3', $violation->getProperty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldBeValidMultipleRecursive(): void
+    public function testShouldBeValidMultipleRecursive(): void
     {
-        $hashValidation = new HashValidation(
+        $hashInspector = new HashInspector([
+            new Key('test1', true, []),
+        ]);
+
+        $keyInspector = new KeyInspector(
+            'test2',
+            true,
             [
-                new Key('test1', true, []),
-            ],
-            [
-                new KeySet('test2', true,
-                    [
-                        new Key('test3', true, [])
-                    ],
-                    [
-                        new KeySet('test4', true,
-                            [
-                                new Key('test5', true, [])
-                            ],
-                            []
-                        )
-                    ]
-                )
+                new HashInspector([new Key('test3', true, [])]),
+                new KeyInspector(
+                    'test4',
+                    true,
+                    [new HashInspector([new Key('test5', true, [])])],
+                ),
             ]
         );
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector, $keyInspector]);
 
         $result = $validation->validate([
             ['test1' => 'bar', 'test2' => ['test3' => 'bar', 'test4' => ['test5' => 'foo']]]
@@ -181,28 +146,26 @@ final class CollectionValidationTest extends TestCase
         $this->assertTrue($result->isEmpty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldBeInvalidMultipleRecursive(): void
+    public function testShouldBeInvalidMultipleRecursive(): void
     {
-        $hashValidation = new HashValidation(
+        $hashInspector = new HashInspector([
+            new Key('test1', true, []),
+        ]);
+
+        $keyInspector = new KeyInspector(
+            'test2',
+            true,
             [
-                new Key('test1', true, []),
-            ],
-            [
-                new KeySet('test2', true,
-                    [
-                        new Key('test3', true, [])
-                    ],
-                    [
-                        new KeySet('test4', true, [], [])
-                    ]
-                )
+                new HashInspector([new Key('test3', true, [])]),
+                new KeyInspector(
+                    'test4',
+                    true,
+                    [],
+                ),
             ]
         );
 
-        $validation = new CollectionValidation($hashValidation);
+        $validation = new CollectionValidation([$hashInspector, $keyInspector]);
 
         $result = $validation->validate([['test1' => 'bar', 'test2' => ['test3' => 'bar']]]);
         $this->assertFalse($result->isEmpty());

@@ -9,28 +9,19 @@ use Qlimix\Validation\ViolationSet;
 
 final class ViolationSetTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function shouldBeEmpty(): void
+    public function testShouldBeEmpty(): void
     {
         $violationSet = new ViolationSet([], []);
         $this->assertTrue($violationSet->isEmpty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotBeEmpty(): void
+    public function testShouldNotBeEmpty(): void
     {
-        $violationSet = new ViolationSet([new Violation('test', [], [])], []);
+        $violationSet = new ViolationSet([new Violation('test', [])], []);
         $this->assertFalse($violationSet->isEmpty());
     }
 
-    /**
-     * @test
-     */
-    public function shouldMatchExpectation(): void
+    public function testShouldMatchExpectation(): void
     {
         $violation = new Violation('test', ['foo', 'bar'], []);
         $group = new ViolationGroup('foo', [new Violation('bar', ['foo' => 'bar'], [])], []);

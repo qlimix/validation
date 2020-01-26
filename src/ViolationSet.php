@@ -2,6 +2,7 @@
 
 namespace Qlimix\Validation;
 
+use function array_merge;
 use function count;
 
 final class ViolationSet
@@ -25,6 +26,21 @@ final class ViolationSet
     public function isEmpty(): bool
     {
         return count($this->violations) === 0 && count($this->violationGroups) === 0;
+    }
+
+    /**
+     * @param ViolationSet[] $violationSets
+     */
+    public static function createFromArray(array $violationSets): self
+    {
+        $violations = [];
+        $violationGroups = [];
+        foreach ($violationSets as $violationSet) {
+            $violations[] = $violationSet->getViolations();
+            $violationGroups[] = $violationSet->getViolationGroups();
+        }
+
+        return new self(array_merge(...$violations), array_merge(...$violationGroups));
     }
 
     /**
