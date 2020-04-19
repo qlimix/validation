@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Qlimix\Validation\Hash;
+namespace Qlimix\Validation;
 
 use Qlimix\Validation\Validator\ValidatorInterface;
 
