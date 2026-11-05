@@ -1,5 +1,7 @@
 # validation
 
+> **Archived:** this package is no longer maintained.
+
 [![Travis CI](https://api.travis-ci.org/qlimix/validation.svg?branch=master)](https://travis-ci.org/qlimix/validation)
 [![Coveralls](https://img.shields.io/coveralls/github/qlimix/validation.svg)](https://coveralls.io/github/qlimix/validation)
 [![Mutation testing badge](https://badge.stryker-mutator.io/github.com/qlimix/validation/master)](https://stryker-mutator.github.io)
